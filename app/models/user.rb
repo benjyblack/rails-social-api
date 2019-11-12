@@ -18,7 +18,7 @@ class User < ApplicationRecord
   end
 
   def unfollow(user)
-    follow_relationship(user).destroy
+    follow_relationship(user)&.destroy
   end
 
   private
