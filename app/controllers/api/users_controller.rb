@@ -13,24 +13,34 @@ class Api::UsersController < ApplicationController
   end
 
   def follow
-    follower = User.find(params[:user_id])
     followee = User.find(params[:id])
 
-    follower.follow(followee)
-
-    # TODO: Add error checking
+    user.follow(followee)
 
     render status: 200
+  rescue StandardError => e
+    # TODO: log error
+    render status: 422
   end
 
   def unfollow
-    follower = User.find(params[:user_id])
     followee = User.find(params[:id])
 
-    follower.unfollow(followee)
-
-    # TODO: Add error checking
+    user.unfollow(followee)
 
     render status: 200
+  rescue StandardError => e
+    # TODO: log error
+    render status: 422
+  end
+
+  def followers
+    render status: 200, json: user.followers
+  end
+
+  private
+
+  def user
+    @user ||= User.find(params[:user_id])
   end
 end

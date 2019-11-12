@@ -8,7 +8,7 @@ class User < ApplicationRecord
   has_many :followees, through: :followee_relationships, source: :followee
 
   def follows?(user)
-    follow_relationship(user).present?
+    followees.include?(user)
   end
 
   def follow(user)
