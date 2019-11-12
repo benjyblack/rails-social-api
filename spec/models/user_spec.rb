@@ -10,6 +10,11 @@ RSpec.describe User, type: :model do
       context 'when no other user exists with the same username' do
         it { is_expected.to be_valid }
       end
+
+      context 'when another user exists with the same username' do
+        before { FactoryBot.create(:user, username: subject.username) }
+        it { is_expected.to be_invalid }
+      end
     end
   end
 end
