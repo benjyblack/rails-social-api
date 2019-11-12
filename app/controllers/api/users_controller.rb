@@ -22,4 +22,15 @@ class Api::UsersController < ApplicationController
 
     render status: 200
   end
+
+  def unfollow
+    follower = User.find(params[:user_id])
+    followee = User.find(params[:id])
+
+    follower.unfollow(followee)
+
+    # TODO: Add error checking
+
+    render status: 200
+  end
 end
