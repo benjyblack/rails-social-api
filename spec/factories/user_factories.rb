@@ -1,6 +1,8 @@
 FactoryBot.define do
   factory :user do
     name { "John Doe" }
-    username  { "john_doe" }
+    sequence :username do |n|
+      "john_doe_#{n}"
+    end
   end
 end

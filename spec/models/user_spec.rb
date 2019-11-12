@@ -17,4 +17,47 @@ RSpec.describe User, type: :model do
       end
     end
   end
+
+  describe '#follow' do
+    let(:follower) { FactoryBot.create(:user) }
+    let(:followee) { FactoryBot.create(:user) }
+    subject { follower.follow(followee) }
+
+    it 'follows the user' do
+      expect { subject }.to change(Follower, :count).by(1)
+    end
+
+    context 'user is already followed' do
+      before do
+        follower.follow(followee)
+      end
+
+      it 'does not follow them again' do
+        expect { subject }.not_to change(Follower, :count)
+      end
+    end
+  end
+
+  describe '#unfollow' do
+    let(:follower) { FactoryBot.create(:user) }
+    let(:followee) { FactoryBot.create(:user) }
+    subject { follower.unfollow(followee) }
+
+    context 'user is not followed' do
+      it 'does nothing' do
+        expect { subject }.not_to change(Follower, :count)
+      end
+    end
+
+    context 'user is followed' do
+      before do
+        follower.follow(followee)
+      end
+
+      it 'unfollows them' do
+        subject
+        expect(Follower.count).to be(0)
+      end
+    end
+  end
 end
