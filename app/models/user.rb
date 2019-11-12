@@ -1,6 +1,4 @@
 class User < ApplicationRecord
-  attr_accessor :username, :name
-
   validates_uniqueness_of :username
   validates_presence_of :username
   validates_presence_of :name
