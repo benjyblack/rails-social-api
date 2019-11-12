@@ -1,5 +1,9 @@
 class User < ApplicationRecord
+  attr_accessor :username, :name
+
   validates_uniqueness_of :username
+  validates_presence_of :username
+  validates_presence_of :name
 
   has_many :follower_relationships, foreign_key: :followee_id, class_name: 'Follower'
   has_many :followers, through: :follower_relationships, source: :follower

@@ -1,12 +1,12 @@
 class Api::UsersController < ApplicationController
   def create
-    user = User.create(
+    user = User.create!(
       username: params[:username],
       name: params[:name],
     )
 
     if user.present?
-      render status: 200, json: user
+      render status: 200, json: UserSerializer.new(user).serializable_hash
     else
       render status: 422
     end
@@ -35,7 +35,10 @@ class Api::UsersController < ApplicationController
   end
 
   def followers
-    render status: 200, json: user.followers
+    render status: 200, json: UserSerializer.new(user).followers
+  rescue StandardError => e
+    # TODO: log error
+    render status: 422
   end
 
   private
