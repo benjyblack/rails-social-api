@@ -35,7 +35,11 @@ class Api::UsersController < ApplicationController
   end
 
   def followers
-    render status: 200, json: UserSerializer.new(user).followers
+    puts UserSerializer.new(user)
+    # TODO: Do this better
+    render status: 200, json: user.followers.map do |follower|
+      UserSerializer.new(follower).serializable_hash
+    end
   rescue StandardError => e
     # TODO: log error
     render status: 422
