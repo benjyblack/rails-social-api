@@ -11,4 +11,15 @@ class Api::UsersController < ApplicationController
       render status: 422
     end
   end
+
+  def follow
+    follower = User.find(params[:user_id])
+    followee = User.find(params[:id])
+
+    follower.follow(followee)
+
+    # TODO: Add error checking
+
+    render status: 200
+  end
 end
